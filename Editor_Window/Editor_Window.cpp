@@ -3,6 +3,9 @@
 
 #include "framework.h"
 #include "Editor_Window.h"
+#include "..\\TestEngine_Source\\TestApplication.h"
+#include "..\\TestEngine_Window\\LoadScene.h"
+yw::TestApplication application;
 
 #define MAX_LOADSTRING 100
 
@@ -42,15 +45,33 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     MSG msg;
 
+    while (true) {
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        {
+            if (msg.message == WM_QUIT)
+                break;
+            if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+            {
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
+            }
+
+        }
+        else 
+        {
+            application.Run();
+            //메세지가 없을 경우 여기 실행
+        }
+    }
     // 기본 메시지 루프입니다:
-    while (GetMessage(&msg, nullptr, 0, 0))
+ /*   while (GetMessage(&msg, nullptr, 0, 0))
     {
         if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
         {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
-    }
+    }*/
 
     return (int) msg.wParam;
 }
@@ -97,8 +118,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
+   const UINT width = 1600;
+   const UINT height = 800;
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+
+   application.Init(hWnd, width, height);
 
    if (!hWnd)
    {
@@ -108,6 +133,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
+   yw::LoadScenes();
    return TRUE;
 }
 
@@ -147,6 +173,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+            Rectangle(hdc, 100, 100, 200, 200);
             EndPaint(hWnd, &ps);
         }
         break;

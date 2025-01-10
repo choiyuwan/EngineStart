@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{e3724ec6-8b99-4c9a-9f24-71fe7e544dc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Script">
+      <UniqueIdentifier>{35de78b6-5a25-4873-9696-ad13a81f2d91}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LoadScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerScript.h">
+      <Filter>Script</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerScript.cpp">
+      <Filter>Script</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
