@@ -2,7 +2,7 @@
 #include "Object.h"
 #include "Player.h"
 #include "ResourceManager.h"
-
+#include "PlayerScript.h"
 namespace yw 
 {
 	PlayScene::PlayScene()
@@ -16,6 +16,7 @@ namespace yw
 	void PlayScene::Init()
 	{		
 		Player* player = object::Instantiate<Player>(LayerType::Player, Vector2(100.f, 100.f));
+		player->AddComponent<PlayerScript>();
 	}
 
 	void PlayScene::Update()

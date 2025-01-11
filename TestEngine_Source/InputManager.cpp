@@ -1,12 +1,16 @@
 #include "InputManager.h"
+#include "TestApplication.h"
+extern yw::TestApplication application;
 namespace yw
 {
 	vector<InputManager::Key> InputManager::Keys = {};
+	Vector2 InputManager::m_MousePos = Vector2::One;
 
-	int ASCII[(UINT)eKeyCode::End] =
+	int ASCII[(UINT)KeyCode::End] =
 	{
 		'Q', 'W', 'E', 'R', 'A', 'S' ,'D',
 		VK_LEFT, VK_RIGHT, VK_DOWN, VK_UP,
+		VK_LBUTTON, VK_RBUTTON, VK_MBUTTON,
 	};
 
 	void InputManager::Init()
@@ -21,12 +25,12 @@ namespace yw
 	
 	void InputManager::createKeys()
 	{
-		for (size_t i = 0; i < (UINT)eKeyCode::End; i++)
+		for (size_t i = 0; i < (UINT)KeyCode::End; i++)
 		{
 			Key key = {};
-			key.bPressed = false;
-			key.state = eKeyState::None;
-			key.keyCode = (eKeyCode)i;
+			key.isPressed = false;
+			key.state = KeyState::None;
+			key.keyCode = (KeyCode)i;
 
 			Keys.push_back(key);
 		}
@@ -43,37 +47,77 @@ namespace yw
 
 	void InputManager::UpdateKey(InputManager::Key& key)
 	{
-		if (IsKeyDown(key.keyCode))
+		if (GetFocus())
 		{
-			UpdateKeyDown(key);
+			if (IsKeyDown(key.keyCode))
+			{
+				UpdateKeyDown(key);
+			}
+			else
+			{
+				UpdateKeyUp(key);
+			}
+
+			GetMousPosByWindow();
 		}
 		else
 		{
-			UpdateKeyUp(key);
+			ClearKeys();
 		}
+		
 	}
 
-	bool InputManager::IsKeyDown(eKeyCode code)
+	bool InputManager::IsKeyDown(KeyCode code)
 	{
 		return GetAsyncKeyState(ASCII[(UINT)code]) & 0x8000;
 	}
 
 	void InputManager::UpdateKeyDown(InputManager::Key& key)
 	{
-		if (key.bPressed == true)
-			key.state = eKeyState::Pressed;
+		if (key.isPressed == true)
+			key.state = KeyState::Pressed;
 		else
-			key.state = eKeyState::Down;
+			key.state = KeyState::Down;
 
-		key.bPressed = true;
+		key.isPressed = true;
 	}
+
 	void InputManager::UpdateKeyUp(InputManager::Key& key)
 	{
-		if (key.bPressed == true)
-			key.state = eKeyState::Up;
+		if (key.isPressed == true)
+			key.state = KeyState::Up;
 		else
-			key.state = eKeyState::None;
+			key.state = KeyState::None;
 
-		key.bPressed = false;
+		key.isPressed = false;
+	}
+
+	void InputManager::GetMousPosByWindow()
+	{
+
+		POINT mousePos = {};
+		GetCursorPos(&mousePos);
+		ScreenToClient(application.GetHwnd(), &mousePos);
+
+		m_MousePos.x = mousePos.x;
+		m_MousePos.y = mousePos.y;
+
+	}
+
+	void InputManager::ClearKeys()
+	{
+		for (Key& key : Keys)
+		{
+			if (key.state == KeyState::Down || key.state == KeyState::Pressed)
+			{
+				key.state = KeyState::Up;
+			}
+			else if (key.state == KeyState::Up)
+			{
+				key.state = KeyState::None;
+			}
+
+			key.isPressed = false;
+		}
 	}
 }

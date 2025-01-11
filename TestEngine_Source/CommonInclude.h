@@ -6,5 +6,7 @@ using namespace std;
 #include <map>
 #include <algorithm>
 #include <iostream>
+#include <functional>
 
 #include "Enums.h"
+#include "Maths.h"

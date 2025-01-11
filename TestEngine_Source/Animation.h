@@ -1,7 +1,7 @@
 #pragma once
 #include "Resource.h"
 #include "MyTexture.h"
-#include "Maths.h"
+
 using namespace yw::maths;
 namespace yw
 {

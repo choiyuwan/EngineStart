@@ -1,6 +1,5 @@
 #pragma once
 #include "Component.h"
-#include "Maths.h"
 namespace yw
 {
 	using namespace yw::maths;

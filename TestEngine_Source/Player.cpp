@@ -19,7 +19,7 @@ namespace yw
 	{
 		GameObject::LateUpdate();
 
-		if (InputManager::GetKey(eKeyCode::Right))
+		if (InputManager::GetKey(KeyCode::Right))
 		{
 			Transform* tr = GetComponent<Transform>();
 			Vector2 pos = tr->GetPos();

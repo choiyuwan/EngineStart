@@ -20,28 +20,28 @@ namespace yw
 
 	void PlayerScript::Update()
 	{
-		if (InputManager::GetKey(eKeyCode::Right))
+		if (InputManager::GetKey(KeyCode::Right))
 		{
 			Transform* tr = GetOwner()->GetComponent<Transform>();
 			Vector2 pos = tr->GetPos();
 			pos.x += 100.0f * TimeControl::GetDeltaTime();
 			tr->SetPos(pos);
 		}
-		if (InputManager::GetKey(eKeyCode::Left))
+		if (InputManager::GetKey(KeyCode::Left))
 		{
 			Transform* tr = GetOwner()->GetComponent<Transform>();
 			Vector2 pos = tr->GetPos();
 			pos.x -= 100.0f * TimeControl::GetDeltaTime();
 			tr->SetPos(pos);
 		}
-		if (InputManager::GetKey(eKeyCode::Up))
+		if (InputManager::GetKey(KeyCode::Up))
 		{
 			Transform* tr = GetOwner()->GetComponent<Transform>();
 			Vector2 pos = tr->GetPos();
 			pos.y -= 100.0f * TimeControl::GetDeltaTime();
 			tr->SetPos(pos);
 		}
-		if (InputManager::GetKey(eKeyCode::Down))
+		if (InputManager::GetKey(KeyCode::Down))
 		{
 			Transform* tr = GetOwner()->GetComponent<Transform>();
 			Vector2 pos = tr->GetPos();
@@ -56,6 +56,15 @@ namespace yw
 
 	void PlayerScript::Render(HDC hdc)
 	{
+		if (InputManager::GetKey(KeyCode::LButton)) {
+
+			maths::Vector2 pos = InputManager::GetMousePos();
+			wchar_t str[50] = L"";
+			swprintf_s(str, 50, L"PosX : %d // PosY : %d", (int)pos.x, (int)pos.y);
+			int len = wcsnlen_s(str, 50);
+
+			TextOut(hdc, 0, 0, str, len);
+		}
 	}
 }
 

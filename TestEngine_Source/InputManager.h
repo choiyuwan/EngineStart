@@ -1,19 +1,22 @@
 #pragma once
 #include "CommonInclude.h"
+
 namespace yw
 {
-	enum class eKeyState
+	using namespace maths;
+	enum class KeyState
 	{
 		Down,
 		Pressed,
 		Up,
 		None,
 	};
-	enum class eKeyCode
+	enum class KeyCode
 	{
 		Q, W, E, R, 
 		A, S, D, 
 		Left, Right, Down, Up,
+		LButton, RButton, MButton,
 		End,
 	};
 	class InputManager
@@ -21,26 +24,29 @@ namespace yw
 	public:
 		struct Key
 		{
-			eKeyCode keyCode;
-			eKeyState state;
-			bool bPressed;
+			KeyCode keyCode;
+			KeyState state;
+			bool isPressed;
 		};
 		static void Init();
 		static void Update();
-		static bool GetKeyDown(eKeyCode code) { return Keys[(UINT)code].state == eKeyState::Down; }
-		static bool GetKeyUp(eKeyCode code) { return Keys[(UINT)code].state == eKeyState::Up; }
-		static bool GetKey(eKeyCode code) { return Keys[(UINT)code].state == eKeyState::Pressed; }
+		static bool GetKeyDown(KeyCode code) { return Keys[(UINT)code].state == KeyState::Down; }
+		static bool GetKeyUp(KeyCode code) { return Keys[(UINT)code].state == KeyState::Up; }
+		static bool GetKey(KeyCode code) { return Keys[(UINT)code].state == KeyState::Pressed; }
+		static Vector2 GetMousePos() { return m_MousePos; }		
 
 	private:
 		static void createKeys();
 		static void UpdateKeys();
 		static void UpdateKey(InputManager::Key& key);
-		static bool IsKeyDown(eKeyCode code);
+		static bool IsKeyDown(KeyCode code);
 		static void UpdateKeyDown(InputManager::Key& key);
 		static void UpdateKeyUp(InputManager::Key& key);
-	private:
-		//eKeyState mState[] = eKeyState::Up;
+		static void GetMousPosByWindow();
+		static void ClearKeys();		
+	private:		
 		static vector<Key> Keys;
+		static Vector2 m_MousePos;
 	};
 }
 

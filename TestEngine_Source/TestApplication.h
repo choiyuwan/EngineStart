@@ -15,6 +15,7 @@ namespace yw
 		void LateUpdate();
 		void Render();
 
+		HWND GetHwnd() { return m_hWnd; }
 		HDC GetHdc() { return m_Hdc; }
 		UINT GetWidth() { return m_Width; }
 		UINT GetHeight() { return m_Height; }

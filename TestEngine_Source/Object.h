@@ -4,7 +4,6 @@
 #include "Layer.h"
 #include "Scene.h"
 #include "SceneManager.h"
-#include "Maths.h"
 #include "Transform.h"
 
 namespace yw::object
